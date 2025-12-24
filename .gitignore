@@ -1,3 +1,6 @@
 venv
 data
 data.yaml
+train
+data.zip
+my_model.*
