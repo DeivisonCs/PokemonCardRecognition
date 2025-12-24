@@ -7,7 +7,7 @@ BG_DIR = "dataset/backgroundsTrainset"
 CARD_DIR = "dataset/cards"
 
 OUT_CLASS_PATH = "data"
-OUT_CLASS_NAME = "classes"
+OUT_CLASS_NAME = "classes.txt"
 OUT_IMG = "data/images"
 OUT_LBL = "data/labels"
 

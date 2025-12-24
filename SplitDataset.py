@@ -11,15 +11,13 @@ import argparse
 # Define and parse user input arguments
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--datapath', help='Path to data folder containing image and annotation files',
-                    required=True)
 parser.add_argument('--train_pct', help='Ratio of images to go to train folder; \
                     the rest go to validation folder (example: ".8")',
                     default=.8)
 
 args = parser.parse_args()
 
-data_path = args.datapath
+data_path = "data"
 train_percent = float(args.train_pct)
 
 # Check for valid entries
