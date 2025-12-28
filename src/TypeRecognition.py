@@ -44,7 +44,7 @@ class TypeRecognition:
         classidx = int(detection.cls.item())
         return self.labels[classidx]
 
-    def detect_item_on_frame(self, frame, verbose=False):
+    def detect_item_on_frame(self, frame, verbose=False, draw_box=True):
         results = self.model(frame, verbose=verbose)
         detections = results[0].boxes
 
@@ -53,7 +53,7 @@ class TypeRecognition:
             classname = self.get_class_name(detection)
             confidence = detection.conf.item()
 
-            if confidence > self.min_confidence:
+            if draw_box and confidence > self.min_confidence:
                 cv2.rectangle(frame, (xmin,ymin), (xmax,ymax), self.border_box_color, 2)
 
                 label = f'{classname}: {int(confidence*100)}%'
