@@ -1,27 +1,15 @@
-import threading
 import os
 import cv2
-import pandas as pd
 
 from ultralytics import YOLO
 
 class ObjectRecognition:
-    def __init__(self, model_path="my_model.pt", dataset_path="./dataset/pokemon.csv"):
+    def __init__(self, model_path="my_model.pt"):
         self.model_path = model_path
-        self.dataset_path = dataset_path
         self.border_box_color = (164,120,87)
-        self.lock_control = threading.Lock()
         self.model = None
         self.labels = None
         self.min_confidence = 0.8
-
-    def searching_text(self):
-        try:
-            print("--- Thread: Iniciando trabalho real ---")
-        finally:
-            # O 'finally' garante que, mesmo se der erro, o lock será solto
-            print("--- Thread: Trabalho feito, liberando lock ---")
-            self.lock_control.release()
 
     def load_model(self):
         if (not os.path.exists(self.model_path)):
@@ -31,9 +19,6 @@ class ObjectRecognition:
         self.model = YOLO(self.model_path, task='detect')
         self.labels = self.model.names
         print("Model loaded")
-
-    def load_dataset(self):
-        self.dataset = pd.read_csv(self.dataset_path)
 
     def get_object_coordinates(self, detection):
         xyxy_tensor = detection.xyxy.cpu()
