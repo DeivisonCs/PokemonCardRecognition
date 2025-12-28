@@ -9,12 +9,12 @@ DATASET_PATH = "./dataset/pokemon.csv"
 
 def draw_last_results(frame, item):
     if item is not None:
-        cv2.putText(frame, "Last Pokemon detected:", (10,20), cv2.FONT_HERSHEY_SIMPLEX, .7, (0,255,255), 2)
-        cv2.putText(frame, f"Name: {item["name"]}", (10,40), cv2.FONT_HERSHEY_SIMPLEX, .7, (0,255,255), 2)
-        cv2.putText(frame, f"Type 1: {item["type1"]}", (10,60), cv2.FONT_HERSHEY_SIMPLEX, .7, (0,255,255), 2)
+        cv2.putText(frame, "Last Pokemon detected:", (10,20), cv2.FONT_ITALIC, .5, (0,255,255), 2)
+        cv2.putText(frame, f"Name: {item["name"]}", (10,43), cv2.FONT_ITALIC, .5, (0,255,255), 2)
+        cv2.putText(frame, f"Type 1: {item["type1"]}", (10,63), cv2.FONT_ITALIC, .5, (0,255,255), 2)
         
         if item["type2"]:
-            cv2.putText(frame, f"Type 2: {item["type2"]}", (10,80), cv2.FONT_HERSHEY_SIMPLEX, .7, (0,255,255), 2)
+            cv2.putText(frame, f"Type 2: {item["type2"]}", (10,83), cv2.FONT_ITALIC, .5, (0,255,255), 2)
 
 def main():
     print("App started")
