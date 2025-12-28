@@ -55,3 +55,20 @@ Agora, treine o modelo com o comando abaixo. O modelo será treinado pelas gera�
 ```
 yolo detect train data=data.yaml model=yolo11s.pt epochs=60 imgsz=640
 ```
+
+# Run App
+Você pode executar a aplicação de duas formas, todas a partiir da pasta raíz do projeto.
+
+## Using WebCam
+Para executar e capturar frames em tempo real, usando uma webCam, execute o comando:
+
+```
+python .\src\Main.py
+```
+
+## Using a Image
+Para executar em uma imagem, execute o comando passando o path da sua imagem:
+
+```
+python .\src\Main.py --img path
+```
