@@ -28,6 +28,11 @@ def main():
         objects_detect_result = object_recognition.detect_object_on_frame(frame)
         objects_box_detected = objects_detect_result["objects_box_detected"]
 
+        for object_box in objects_box_detected:
+            xmin, xmax = object_box["xmin"], object_box["xmax"]
+            ymin, ymax = object_box["ymin"], object_box["ymax"]
+            type_recognition.detect_type(frame[ymin:ymax, xmin:xmax])
+
         cv2.imshow('Result', frame)
         if cv2.waitKey(1) & 0xFF == 27:
             break

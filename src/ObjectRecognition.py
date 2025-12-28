@@ -49,7 +49,7 @@ class ObjectRecognition:
                 cv2.rectangle(frame, (xmin, label_ymin-labelSize[1]-10), (xmin+labelSize[0], label_ymin+baseLine-10), self.border_box_color, cv2.FILLED) # Draw white box to put
                 cv2.putText(frame, label, (xmin, label_ymin-7), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
             
-            objects_detected.append([xmin, ymin, xmax, ymax])
+            objects_detected.append({"xmin": xmin, "ymin":ymin, "xmax":xmax, "ymax":ymax})
             classes_detected.append(classname)
         
         return {"labels": classes_detected, "objects_box_detected": objects_detected}
