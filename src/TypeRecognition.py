@@ -14,6 +14,7 @@ class TypeRecognition:
         self.reader = easyocr.Reader(["pt"], gpu=gpu)
         self.search_interval = search_interval
         self.last_found_search = None
+        self.last_item_found = None
 
     def _can_search(self, time):
         if self.search_interval is None:
