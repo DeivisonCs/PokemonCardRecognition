@@ -1,7 +1,7 @@
 # Requirements
 
 ```
-pip install ultralytics
+pip install ultralytics easyocr pandas opencv-python
 ```
 
 # Step 1: Generate Dataset
