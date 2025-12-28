@@ -31,7 +31,7 @@ def main():
         for object_box in objects_box_detected:
             xmin, xmax = object_box["xmin"], object_box["xmax"]
             ymin, ymax = object_box["ymin"], object_box["ymax"]
-            type_recognition.detect_type(frame[ymin:ymax, xmin:xmax])
+            type_recognition.detect_text_in_frame(frame[ymin:ymax, xmin:xmax])
 
         cv2.imshow('Result', frame)
         if cv2.waitKey(1) & 0xFF == 27:
