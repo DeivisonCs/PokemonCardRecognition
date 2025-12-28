@@ -1,14 +1,18 @@
 import cv2
 import ObjectRecognition
+import TypeRecognition
 
 CAM_WIDTH, CAM_HEIGHT = 680, 480
 CAM_FPS = 60
+DATASET_PATH = "./dataset/pokemon.csv"
 
 def main():
     print("App started")
     object_recognition = ObjectRecognition.ObjectRecognition()
-    object_recognition.load_dataset()
     object_recognition.load_model()
+
+    type_recognition = TypeRecognition.TypeRecognition(dataset_path=DATASET_PATH)
+    type_recognition.load_dataset()
 
     cap = cv2.VideoCapture(0)
     cap.set(3, CAM_WIDTH)
@@ -21,7 +25,8 @@ def main():
 
     while True:
         success, frame = cap.read()
-        object_recognition.detect_object_on_frame(frame)
+        objects_detect_result = object_recognition.detect_object_on_frame(frame)
+        objects_box_detected = objects_detect_result["objects_box_detected"]
 
         cv2.imshow('Result', frame)
         if cv2.waitKey(1) & 0xFF == 27:

@@ -32,6 +32,8 @@ class ObjectRecognition:
     def detect_object_on_frame(self, frame, verbose=False, draw_box=True):
         results = self.model(frame, verbose=verbose)
         detections = results[0].boxes
+        objects_detected = []
+        classes_detected = []
 
         for detection in detections:
             xmin, ymin, xmax, ymax = self.get_object_coordinates(detection)
@@ -46,3 +48,8 @@ class ObjectRecognition:
                 label_ymin = max(ymin, labelSize[1] + 10) # Making sure label is not to close to top
                 cv2.rectangle(frame, (xmin, label_ymin-labelSize[1]-10), (xmin+labelSize[0], label_ymin+baseLine-10), self.border_box_color, cv2.FILLED) # Draw white box to put
                 cv2.putText(frame, label, (xmin, label_ymin-7), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
+            
+            objects_detected.append([xmin, ymin, xmax, ymax])
+            classes_detected.append(classname)
+        
+        return {"labels": classes_detected, "objects_box_detected": objects_detected}
