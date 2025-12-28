@@ -5,7 +5,7 @@ import pandas as pd
 
 from ultralytics import YOLO
 
-class TypeRecognition:
+class ObjectRecognition:
     def __init__(self, model_path="my_model.pt", dataset_path="./dataset/pokemon.csv"):
         self.model_path = model_path
         self.dataset_path = dataset_path
@@ -35,7 +35,7 @@ class TypeRecognition:
     def load_dataset(self):
         self.dataset = pd.read_csv(self.dataset_path)
 
-    def get_item_coordinates(self, detection):
+    def get_object_coordinates(self, detection):
         xyxy_tensor = detection.xyxy.cpu()
         xyxy = xyxy_tensor.numpy().squeeze()
         return xyxy.astype(int)
@@ -44,12 +44,12 @@ class TypeRecognition:
         classidx = int(detection.cls.item())
         return self.labels[classidx]
 
-    def detect_item_on_frame(self, frame, verbose=False, draw_box=True):
+    def detect_object_on_frame(self, frame, verbose=False, draw_box=True):
         results = self.model(frame, verbose=verbose)
         detections = results[0].boxes
 
         for detection in detections:
-            xmin, ymin, xmax, ymax = self.get_item_coordinates(detection)
+            xmin, ymin, xmax, ymax = self.get_object_coordinates(detection)
             classname = self.get_class_name(detection)
             confidence = detection.conf.item()
 

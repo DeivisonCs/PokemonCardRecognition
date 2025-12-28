@@ -1,14 +1,14 @@
 import cv2
-import TypeRecognition
+import ObjectRecognition
 
 CAM_WIDTH, CAM_HEIGHT = 680, 480
-CAM_FPS = 100
+CAM_FPS = 60
 
 def main():
     print("App started")
-    type_recognition = TypeRecognition.TypeRecognition()
-    type_recognition.load_dataset()
-    type_recognition.load_model()
+    object_recognition = ObjectRecognition.ObjectRecognition()
+    object_recognition.load_dataset()
+    object_recognition.load_model()
 
     cap = cv2.VideoCapture(0)
     cap.set(3, CAM_WIDTH)
@@ -21,7 +21,7 @@ def main():
 
     while True:
         success, frame = cap.read()
-        type_recognition.detect_item_on_frame(frame)
+        object_recognition.detect_object_on_frame(frame)
 
         cv2.imshow('Result', frame)
         if cv2.waitKey(1) & 0xFF == 27:
