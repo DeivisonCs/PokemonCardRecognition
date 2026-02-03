@@ -64,7 +64,9 @@ def use_cam():
         for object_box in objects_box_detected:
             xmin, xmax = object_box["xmin"], object_box["xmax"]
             ymin, ymax = object_box["ymin"], object_box["ymax"]
-            item_detected = type_recognition.detect_text_in_frame(frame[ymin:ymax, xmin:xmax])
+            
+            type_recognition.detect_text_in_frame(frame[ymin:ymax, xmin:xmax])
+            item_detected = type_recognition.get_result()
             
             if item_detected is not None:
                 name = item_detected['name'].values[0]
@@ -90,6 +92,7 @@ def main(img_path):
     print("App started")
 
     if img_path:
+        print(img_path)
         use_image(img_path)
     else:
         use_cam()
@@ -97,5 +100,4 @@ def main(img_path):
     print("App finished")
 
 if __name__ == "__main__":
-    print(img_path)
     main(img_path)

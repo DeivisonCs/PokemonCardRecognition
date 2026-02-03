@@ -12,9 +12,11 @@ class TypeRecognition:
         self.dataset_path = dataset_path
         self.dataset = None
         self.reader = easyocr.Reader(["pt"], gpu=gpu)
+        
         self.search_interval = search_interval
         self.last_found_search = None
         self.last_item_found = None
+        self.result_queue = queue.Queue()
 
     def _can_search(self, time):
         if self.search_interval is None:
@@ -45,40 +47,35 @@ class TypeRecognition:
         else:
             return None
 
-    def _searching_text(self, **kwargs):
+    def _searching_text(self, frame):
         try:
-            frame = kwargs.get("frame", None)
-            result_queue = kwargs.get("result_queue", None)
-            
-            if frame is None or frame.size == 0 or not result_queue:
-                return
-
             texts_detected = self.reader.readtext(frame)
             for text in texts_detected:
                 item = self._search_item_in_dateaset(text[1])
-
                 if item is not None:
-                    result_queue.put(item)
+                    self.result_queue.put(item)
         finally:
             self.lock_control.release()
 
     def detect_text_in_frame(self, frame):
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
         current_time = time.time()
-        can_search = self._can_search(current_time)
 
-        if can_search and self.lock_control.acquire(blocking=False):
+        if self._can_search(current_time) and self.lock_control.acquire(blocking=False):
             print("Procurando...")
-            result_queue = queue.Queue()
+            self.last_found_search = current_time
 
-            thread = threading.Thread(target=self._searching_text, kwargs={"frame": gray_frame, "result_queue": result_queue})
+            thread = threading.Thread(
+                target=self._searching_text,
+                args=(gray_frame,),
+                daemon=True
+            )
             thread.start()
-            thread.join()
 
-            if not result_queue.empty():
-                self.last_found_search = current_time
-                result = result_queue.get()
-                return result
-        
         return None
+
+    def get_result(self):
+        try:
+            return self.result_queue.get_nowait()
+        except queue.Empty:
+            return None
